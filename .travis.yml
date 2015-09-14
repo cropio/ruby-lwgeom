@@ -29,17 +29,17 @@ before_install:
   #- sudo make install --silent
   - sudo apt-get install libgeos-dev
 
-  - cd ~
+  #- cd ~
 
   # proj4 for lwgeom
-  - wget http://download.osgeo.org/proj/proj-4.9.1.tar.gz
-  - tar xfz proj-4.9.1.tar.gz
-  - cd proj-4.9.1
-  - ./configure --silent
-  - sudo make --silent
-  - sudo make install --silent
-
-  - cd ~
+  #- wget http://download.osgeo.org/proj/proj-4.9.1.tar.gz
+  #- tar xfz proj-4.9.1.tar.gz
+  #- cd proj-4.9.1
+  #- ./configure --silent
+  #- sudo make --silent
+  #- sudo make install --silent
+  #- cd ~
+  - sudo apt-get install libproj-dev
 
   - wget http://download.osgeo.org/postgis/source/postgis-2.1.5.tar.gz
   - tar xfz postgis-2.1.5.tar.gz
