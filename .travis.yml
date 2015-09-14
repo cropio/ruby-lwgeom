@@ -16,48 +16,23 @@ branches:
     - master
 
 before_install:
-  #- sudo find / -type f -name "*lwgeom*"
-  # geos for lwgeom
   - sudo apt-get update -qq
   - sudo apt-get install -y postgresql-server-dev-9.4
 
-  #- wget http://download.osgeo.org/geos/geos-3.5.0.tar.bz2
-  #- tar xjf geos-3.5.0.tar.bz2
-  #- cd geos-3.5.0
-  #- ./configure --silent
-  #- sudo make --silent
-  #- sudo make install --silent
   - sudo apt-get install libgeos-dev
-
-  #- cd ~
-
-  # proj4 for lwgeom
-  #- wget http://download.osgeo.org/proj/proj-4.9.1.tar.gz
-  #- tar xfz proj-4.9.1.tar.gz
-  #- cd proj-4.9.1
-  #- ./configure --silent
-  #- sudo make --silent
-  #- sudo make install --silent
-  #- cd ~
   - sudo apt-get install libproj-dev
 
   - wget http://download.osgeo.org/postgis/source/postgis-2.1.5.tar.gz
   - tar xfz postgis-2.1.5.tar.gz
   - cd postgis-2.1.5
-
   - ./configure --without-gui --without-raster --silent
   - sudo make --silent
   - sudo make install --silent
   - sudo ldconfig
 
   - cd /home/travis/build/cropio/ruby-lwgeom
-  - ls -la
 
 before_script:
-  - psql -U postgres -c "CREATE USER cropio with password 'cropio';";
-  - psql -U postgres -c "ALTER USER cropio superuser";
-  - psql -U cropio -d postgres -c "CREATE DATABASE cropio_test;"
-  - psql -U cropio -d cropio_test -c "CREATE EXTENSION postgis;"
   - gem build lwgeom.gemspec
   - gem install lwgeom
 
