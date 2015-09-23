@@ -7,4 +7,10 @@
 /pkg/
 /spec/reports/
 /tmp/
+
 *.gem
+*.log
+*.o
+*.bundle
+Makefile
+extconf.h
