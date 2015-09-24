@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "lwgeom"
-  spec.version       = '0.1'
+  spec.version       = '0.2'
   spec.authors       = ["Yaroslav Nelin"]
   spec.email         = ["y.nelin@gmail.com"]
 

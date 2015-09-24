@@ -7,7 +7,6 @@ double EARTH_MINOR_AXIS_RADIUS = 6356752.314245179498;
 LWGEOM *lwg;
 SPHEROID s;
 
-/// methods for calculating area
 double get_area_for_lwg()
 {
   double area = lwgeom_area_spheroid(lwg, &s);
@@ -17,7 +16,8 @@ double get_area_for_lwg()
 
 static VALUE get_area_from_wkb(VALUE self, VALUE geom_wkb)
 {
-  size_t wkb_size_a;
+  int wkb_size_a;
+  wkb_size_a = RSTRING_LEN(geom_wkb);
   lwg = lwgeom_from_wkb(RSTRING_PTR(geom_wkb), wkb_size_a, 0);
   double area = get_area_for_lwg();
   return rb_float_new(area);
@@ -52,12 +52,14 @@ static VALUE get_length_from_wkt(VALUE self, VALUE geom_wkt)
   return rb_float_new(length);
 }
 
+
 static VALUE get_length_from_wkb(VALUE self, VALUE geom_wkb)
 {
-  size_t wkb_size_a;
+  int wkb_size_a;
+  wkb_size_a = RSTRING_LEN(geom_wkb);
   lwg = lwgeom_from_wkb(RSTRING_PTR(geom_wkb), wkb_size_a, 0);
-  double length = get_length_for_lwg();
-  return rb_float_new(length);
+  double area = get_length_for_lwg();
+  return rb_float_new(area);
 }
 
 static VALUE get_length_from_hexwkb(VALUE self, VALUE geom_hexwkb)
