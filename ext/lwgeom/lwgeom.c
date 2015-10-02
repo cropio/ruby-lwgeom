@@ -7,6 +7,8 @@ double EARTH_MINOR_AXIS_RADIUS = 6356752.314245179498;
 LWGEOM *lwg;
 SPHEROID s;
 
+static VALUE cSpheroid;
+
 double get_area_for_lwg()
 {
   double area = lwgeom_area_spheroid(lwg, &s);
@@ -70,13 +72,35 @@ static VALUE get_length_from_hexwkb(VALUE self, VALUE geom_hexwkb)
   return rb_float_new(length);
 }
 
+// trying to make polygon to be valid
+// accept only string-polygon in wkb format
+static VALUE make_valid(VALUE self, VALUE geom_wkb)
+{
+  VALUE result;
+  LWGEOM *valid_lwg;
+  
+  int wkb_size_a;
+  wkb_size_a = RSTRING_LEN(geom_wkb);
+  
+  lwg = lwgeom_from_wkb(RSTRING_PTR(geom_wkb), wkb_size_a, 0);
+  
+  valid_lwg = lwgeom_make_valid(lwg);
+  //make multi
+  valid_lwg = lwgeom_as_multi(valid_lwg);
+
+  char *wkb_str = (char*)lwgeom_to_wkb(valid_lwg, WKB_HEX, NULL);
+  
+
+  return rb_str_new2(wkb_str);
+}
+
 void Init_lwgeom()
 {
   /* define module */
   VALUE mLwGeom = rb_define_module("LwGeom");
 
   /* define class */
-  VALUE cSpheroid = rb_define_class_under(mLwGeom, "Spheroid", rb_cObject);
+  cSpheroid = rb_define_class_under(mLwGeom, "Spheroid", rb_cObject);
 
   rb_define_module_function(cSpheroid, "get_area_from_hexwkb",  get_area_from_hexwkb, 1);
   rb_define_module_function(cSpheroid, "get_area_from_wkb",     get_area_from_wkb,    1);
@@ -84,6 +108,7 @@ void Init_lwgeom()
   rb_define_module_function(cSpheroid, "get_length_from_wkt",   get_length_from_wkt,  1);
   rb_define_module_function(cSpheroid, "get_length_from_wkb",   get_length_from_wkb,  1);
   rb_define_module_function(cSpheroid, "get_length_from_hexwkb",get_length_from_hexwkb,1);
+  rb_define_module_function(cSpheroid, "make_valid", make_valid, 1);
 
   spheroid_init(&s, EARTH_MAJOR_AXIS_RADIUS, EARTH_MINOR_AXIS_RADIUS);
 }
