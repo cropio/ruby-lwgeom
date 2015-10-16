@@ -17,18 +17,14 @@ branches:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y postgresql-server-dev-9.4
+  #- sudo apt-get install -y postgresql-server-dev-9.4
 
   - sudo apt-get install libgeos-dev
   - sudo apt-get install libproj-dev
 
-  - wget http://download.osgeo.org/postgis/source/postgis-2.1.5.tar.gz
-  - tar xfz postgis-2.1.5.tar.gz
-  - cd postgis-2.1.5
-  - ./configure --without-gui --without-raster --silent
-  - sudo make --silent
-  - sudo make install --silent
-  - sudo ldconfig
+  - cd /home/travis/build/cropio/ruby-lwgeom
+
+  - ./install-postgis-and-dependencies.sh
 
   - cd /home/travis/build/cropio/ruby-lwgeom
 
