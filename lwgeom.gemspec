@@ -13,4 +13,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["ext/lwgeom"]
 
   spec.extensions << 'ext/lwgeom/extconf.rb'
+
+  spec.add_development_dependency('test-unit')
+  spec.add_development_dependency('rake')
 end
